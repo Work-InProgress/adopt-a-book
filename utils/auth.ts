@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-export const hashPasswprd = (password: string): string => {
+export const hashPassword = (password: string): string => {
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
     return hashedPassword;
