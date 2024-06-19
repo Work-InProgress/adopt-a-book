@@ -1,4 +1,8 @@
 import bcrypt from 'bcryptjs';
+import jwt, { Secret } from 'jsonwebtoken';
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 export const hashPasswprd = (password: string): string => {
@@ -9,4 +13,10 @@ export const hashPasswprd = (password: string): string => {
 
 export const compareHash = (rawPassword: string, hashedPassword: string): boolean => {
     return bcrypt.compareSync(rawPassword, hashedPassword);
+}
+
+const privateKey: Secret = process.env.TOKEN_SECRET || "";
+
+export const generateAccessToken = (username: string) => {
+    return jwt.sign({ username: username }, privateKey, { expiresIn: 86400000 });
 }
