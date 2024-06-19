@@ -1,16 +1,12 @@
 import { Schema, model } from 'mongoose';
-
-export type geoJson = {
-    type: string;
-    location: [number];
-}
+import { geoJson } from '../interfaces/interfaces';
 
 export interface BookInterface {
     image?: [string];
     title: string;
     genre: string;
     user: { _id: string };
-    geometry: geoJson;
+    geometry: any;
     rating: number;
 }
 
@@ -19,6 +15,12 @@ const bookSchema = new Schema<BookInterface>({
     title: { type: String, required: true },
     genre: { type: String, required: true },
     user: { type: Schema.Types.ObjectId, ref: 'user', required: true },
+    geometry: {
+        type: {
+            type: String,
+        },
+        coordinates: [Number]
+    },
     rating: { type: Number, required: true }
 },
     {
