@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { createUser, fetchAllUsers, fetchSingleUser } from '../services/user';
+import { createUser, editUser, fetchAllUsers, fetchSingleUser } from '../services/user';
 
 export const userController = express.Router();
 
@@ -32,7 +32,13 @@ userController.post('/', async (req: Request, res: Response, next: NextFunction)
 })
 
 userController.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
-
+    const { id } = req.params;
+    try {
+        const userToEdit = await editUser(id, req.body);
+        res.json(userToEdit);
+    } catch (error) {
+        next(error);
+    }
 })
 
 userController.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
