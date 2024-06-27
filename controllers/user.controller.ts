@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { createUser, editUser, fetchAllUsers, fetchSingleUser } from '../services/user';
+import { createUser, deleteUser, editUser, fetchAllUsers, fetchSingleUser } from '../services/user';
 
 export const userController = express.Router();
 
@@ -42,5 +42,11 @@ userController.put('/:id', async (req: Request, res: Response, next: NextFunctio
 })
 
 userController.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
-
+    const { id } = req.params;
+    try {
+        const userToDelete = await deleteUser(id);
+        res.json(userToDelete);
+    } catch (error) {
+        next(error);
+    }
 })
